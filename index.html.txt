@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>牛顿环虚拟仿真实验展示平台</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
+<style>
+body{background:#0b1b3a;color:#fff}
+canvas{background:#07142b;border-radius:12px}
+.container{padding:20px}
+</style>
+</head>
+
+<body>
+
+<nav class="container-fluid">
+<ul><li><strong>牛顿环实验</strong></li></ul>
+<ul>
+<li><a href="#principle">实验原理</a></li>
+<li><a href="#demo">3D演示</a></li>
+<li><a href="#report" role="button">实验报告</a></li>
+</ul>
+</nav>
+
+<main class="container">
+
+<h2>牛顿环虚拟仿真实验平台</h2>
+<p>2026年第十二届全国大学生物理实验竞赛（创新）</p>
+
+<!-- 原理 -->
+<section id="principle">
+<h3>实验原理（已修正）</h3>
+<canvas id="p" width="500" height="260"></canvas>
+</section>
+
+<!-- 3D -->
+<section id="demo">
+<h3>3D实验演示</h3>
+<canvas id="c" width="400" height="400"></canvas>
+
+<label>观察角度</label>
+<input type="range" id="angle" min="0" max="60" value="0">
+
+<label>压紧程度</label>
+<input type="range" id="press" min="1" max="10" value="5">
+</section>
+
+<!-- 报告 -->
+<section id="report">
+<h3>实验报告生成</h3>
+<input placeholder="姓名">
+<input placeholder="学号">
+<textarea placeholder="实验结论"></textarea>
+<button onclick="alert('已导出')">导出报告</button>
+</section>
+
+</main>
+
+<script>
+// 原理图（接触）
+let p=document.getElementById('p').getContext('2d');
+p.strokeStyle="#fff";
+
+// 平板
+p.strokeRect(100,200,300,20);
+
+// 透镜（接触）
+p.beginPath();
+p.moveTo(100,200);
+p.quadraticCurveTo(250,120,400,200);
+p.stroke();
+
+// 牛顿环
+let ctx=document.getElementById('c').getContext('2d');
+
+function draw(){
+let angle=document.getElementById('angle').value;
+let press=document.getElementById('press').value;
+
+ctx.clearRect(0,0,400,400);
+
+let scale=1-angle/100;
+
+for(let i=1;i<12;i++){
+let r=i*18*(6/press);
+
+ctx.beginPath();
+ctx.ellipse(200,200,r,r*scale,0,0,Math.PI*2);
+ctx.stroke();
+}
+}
+
+setInterval(draw,30);
+</script>
+
+</body>
+</html>
